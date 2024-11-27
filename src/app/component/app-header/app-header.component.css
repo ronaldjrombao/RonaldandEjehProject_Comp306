@@ -1,0 +1,17 @@
+/* app-header.component.css */
+
+/* Adjust navbar brand to have some padding */
+.navbar-brand {
+    padding: 0.5rem 1rem;
+  }
+  
+  /* Align links to the right in larger screens */
+  .navbar-nav.ml-auto {
+    margin-left: auto;
+  }
+  
+  /* Highlight active link */
+  .nav-link.active {
+    font-weight: bold;
+  }
+  

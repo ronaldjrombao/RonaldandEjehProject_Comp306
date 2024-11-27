@@ -1,0 +1,88 @@
+<!-- Registration Page Style Container -->
+<div class="container">
+    <div class="row justify-content-center">
+      <div class="col-md-6">
+        <div class="card mt-5">
+          <div class="card-body text-center">
+            <form class="form-signin" (ngSubmit)="onSubmit()">
+              <img
+                class="mb-4"
+                src="https://cdn-icons-png.flaticon.com/512/10373/10373918.png"
+                alt=""
+                width="72"
+                height="72"
+              />
+              <h1 class="h3 mb-3 font-weight-normal">Please sign up</h1>
+  
+              <!-- Username input -->
+              <div class="form-group">
+                <label for="inputUsername" class="sr-only">Username</label>
+                <input
+                  type="text"
+                  id="inputUsername"
+                  class="form-control"
+                  placeholder="Username"
+                  [(ngModel)]="user.username"
+                  name="username"
+                  required
+                  autofocus
+                />
+              </div>
+  
+              <!-- Email input -->
+              <div class="form-group">
+                <label for="inputEmail" class="sr-only">Email address</label>
+                <input
+                  type="email"
+                  id="inputEmail"
+                  class="form-control"
+                  placeholder="Email address"
+                  [(ngModel)]="user.email"
+                  name="email"
+                  required
+                />
+              </div>
+  
+              <!-- Password input -->
+              <div class="form-group">
+                <label for="inputPassword" class="sr-only">Password</label>
+                <input
+                  type="password"
+                  id="inputPassword"
+                  class="form-control"
+                  placeholder="Password"
+                  [(ngModel)]="user.password"
+                  name="password"
+                  required
+                />
+              </div>
+  
+              <!-- Confirm Password input -->
+              <div class="form-group">
+                <label for="inputConfirmPassword" class="sr-only">Confirm Password</label>
+                <input
+                  type="password"
+                  id="inputConfirmPassword"
+                  class="form-control"
+                  placeholder="Confirm Password"
+                  [(ngModel)]="user.confirmPassword"
+                  name="confirmPassword"
+                  required
+                />
+              </div>
+  
+              <!-- Submit button -->
+              <button class="btn btn-lg btn-primary btn-block" type="submit">Sign up</button>
+  
+              <!-- Error message -->
+              <!-- <div *ngIf="registrationFailed" class="alert alert-danger mt-3">
+                Registration failed. Please try again.
+              </div> -->
+              
+              <p class="mt-5 mb-3 text-muted">&copy; 2024</p>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>

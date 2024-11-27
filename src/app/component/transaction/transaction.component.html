@@ -1,0 +1,87 @@
+<div class="container">
+    <h1>Transactions</h1>
+      <p class="lead">Welcome to your transaction history</p>
+      <div class="button-container mb-4">
+        <!-- <button class="btn btn-primary" (click)="openBudgetModal(budgetModal)">Add Budgets</button> -->
+        <button class="btn btn-success" (click)="openTransactionModal(addTransactionModal)">Add Transaction</button>
+      </div>
+      <div class="row">
+        <div class="col-3"><strong>Transaction Type</strong></div>
+        <div class="col-3"><strong>Amount</strong></div>
+        <div class="col-3"><strong>Transaction Date</strong></div>
+        <div class="col-3"><strong>Actions</strong></div>
+      </div>
+    
+      <!-- Transaction List -->
+      <div class="row" *ngFor="let transaction of transactions">
+        <div class="col-3">{{ transaction.transactionType }}</div>
+        <div class="col-3">{{ transaction.amount | currency }}</div>
+        <div class="col-3">{{ transaction.transactionDate | date }}</div>
+        <div class="col-3">
+          <!-- Edit and Delete buttons -->
+          <button class="btn btn-primary btn-sm me-2" (click)="openEditTransactionModal(updateTransactionModal, transaction)">Edit</button>
+          <button class="btn btn-danger btn-sm ml-4"(click)="deleteTransaction(transaction.transactionId)">Delete</button>
+        </div>
+      </div>
+      
+
+  <!-- Modal for Transaction -->
+  <ng-template #addTransactionModal let-modal>
+    <div class="modal-header">
+      <h4 class="modal-title">Add Transaction</h4>
+      <button type="button" class="close" aria-label="Close" (click)="modal.dismiss()">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+    <div class="modal-body">
+    <form (ngSubmit)="addTransaction(modal)">
+        <div class="form-group">
+          <label for="category">Category</label>
+          <select id="category" class="form-control" [(ngModel)]="newTransaction.transactionType" name="transactionType" required>
+            <option *ngFor="let category of categories" [value]="category.categoryId">{{ category.categoryName }}</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label for="transactionAmount">transactionAmount</label>
+          <input type="number" id="transactionAmount" class="form-control" [(ngModel)]="newTransaction.amount" name="transactionAmount" required />
+        </div>
+        <div class="form-group">
+          <label for="transactionDate">Transaction Date</label>
+          <input type="date" id="transactionDate" class="form-control" [(ngModel)]="newTransaction.transactionDate" name="transactionDate" required />
+        </div>
+        <button type="submit" class="btn btn-success mt-4">Save Budget</button>
+      </form>
+    </div>
+  </ng-template>
+
+  <ng-template #updateTransactionModal let-modal>
+    <div class="modal-header">
+      <h4 class="modal-title">Update Transaction</h4>
+      <button type="button" class="close" aria-label="Close" (click)="modal.dismiss()">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+    <div class="modal-body">
+    <form (ngSubmit)="editTransaction(selectedTransaction)">
+        <!-- <div class="form-group">
+          <label for="category">Category</label>
+          <select id="category" class="form-control" [(ngModel)]="selectedTransaction.transactionType" name="transactionType" required>
+            <option *ngFor="let category of categories" [value]="category.categoryId">{{ category.categoryName }}</option>
+          </select>
+        </div> -->
+        <div class="form-group">
+          <label for="transactionAmount">transactionAmount</label>
+          <input type="number" id="transactionAmount" class="form-control" [(ngModel)]="selectedTransaction.amount" name="transactionAmount" required />
+        </div>
+        <div class="form-group">
+          <label for="transactionDate">Transaction Date</label>
+          <input type="date" id="transactionDate" class="form-control" [(ngModel)]="selectedTransaction.transactionDate" name="transactionDate" required />
+        </div>
+        <button type="submit" class="btn btn-success mt-4">Save Budget</button>
+      </form>
+    </div>
+  </ng-template>
+</div>
+
+
+

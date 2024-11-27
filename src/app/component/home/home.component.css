@@ -1,0 +1,50 @@
+/* home.component.css */
+
+.container {
+  /* max-width: 800px; */
+    margin: 0 auto;
+    padding: 20px;
+  }
+  
+  .button-container {
+    display: flex;
+    justify-content: space-between;
+  }
+  
+  .categories-section {
+    margin-top: 20px;
+  }
+  
+  .category {
+    border: 1px solid #ccc;
+    padding: 15px;
+    margin-bottom: 10px;
+    border-radius: 8px;
+  }
+  
+  .summary-section {
+    margin-top: 30px;
+    padding: 20px;
+    background-color: #f9f9f9;
+    border-radius: 8px;
+  }
+  
+  .category-info {
+    font-size: 14px;
+    color: #555;
+  }
+  
+  /* styles.css or component-specific CSS file */
+.over-budget {
+  color: red;  /* Change the text color to red */
+  border: 1px solid red; /* Optionally, you can add a red border */
+  background-color: #f8d7da; /* Light red background for better visibility */
+  padding: 10px; /* Optional padding */
+}
+/* Yellow for categories that are maxed out */
+.maxed-out {
+  color: #856404; /* Dark yellow text */
+  background-color: #fff3cd; /* Light yellow background */
+  border: 1px solid #ffeeba; /* Light yellow border */
+  padding: 10px; /* Optional padding */
+}

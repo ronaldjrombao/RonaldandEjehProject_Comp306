@@ -1,0 +1,198 @@
+<div class="container">
+
+  <!-- Budgets Section -->
+  <div class="budgets-section">
+    <h3>Budgets</h3>
+    <div class="button-container mb-4">
+      <button class="btn btn-primary" (click)="openBudgetModal(budgetModal)">Add Budgets</button>
+      <!-- <button class="btn btn-success" (click)="goToTransactionPage()">Transactions</button> -->
+    </div>
+    <div class="row">
+      <div class="col-md-4" *ngFor="let budget of budgets">
+        <div class="budget category maxed-out" >
+          <div class="budget-info">
+            <div class="d-flex justify-content-between align-items-center">
+              <h5>{{ budget.budgetName }}</h5>
+              <div>
+                <!-- Edit Button -->
+                <button 
+                  class="btn btn-sm btn-outline-primary me-2" 
+                  (click)="opentBudgetModal(updateModal, budget)"
+                >
+                  Edit
+                </button>
+                <!-- Delete Button -->
+                <button 
+                  class="btn btn-sm btn-outline-danger" 
+                  (click)="deleteBudget(budget.budgetId)"
+                >
+                  Delete
+                </button>
+              </div>
+            </div>
+            <p>Type: {{ budget.budgetType }}</p>
+            <p>Amount: {{ budget.amount | currency }}</p>
+            <p>Start Date: {{ budget.startDate | date }}</p>
+            <p>End Date: {{ budget.endDate | date }}</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- <div class="categories-section mt-4">
+    <h3>Budget</h3>
+    <div class="row">
+      <div class="col-md-4" *ngFor="let budget of budgets">
+        <div 
+          class="category" 
+          
+          (click)="openTransactionModal(transactionModal, category)"
+        >
+          <div class="category-info">
+            <h5>{{ budget.budgetName }}</h5>
+            <p>Type: {{ budget.budgetType }}</p>
+            <p>Amount: {{ budget.amount | currency }}</p>
+            <p>Start Date: {{ budget.startDate | date }}</p>
+            <p>End Date: {{ budget.endDate | date }}</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>  -->
+
+  <!-- Categories Section -->
+  <!-- <div class="categories-section mt-4">
+    <h3>Budget Categories</h3>
+    <div class="row">
+      <div class="col-md-4" *ngFor="let category of categories">
+        <div 
+          class="category" 
+          [ngClass]="{
+            'over-budget': category.current > category.allocated,
+            'maxed-out': category.current === category.allocated
+          }"
+          (click)="openTransactionModal(transactionModal, category)"
+        >
+          <div class="category-info">
+            <h5>{{ category.name }}</h5>
+            <p>Allocated: {{ category.allocated | currency }}</p>
+            <p>Spent: {{ category.current | currency }}</p>
+            <p>Remaining: {{ category.remaining | currency }}</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div> -->
+  <!-- Current Value Summary -->
+  <div class="summary-section mt-4">
+    <h4>Current Budget Status</h4>
+    <div class="summary-info">
+      <p>Total Allocated: {{ totalAllocated | currency }}</p>
+      <p>Total Spent: {{ totalSpent | currency }}</p>
+      <p>Total Remaining: {{ totalRemaining | currency }}</p>
+    </div>
+  </div>
+
+  <!-- Modal for Adding Budget -->
+  <ng-template #budgetModal let-modal>
+    <div class="modal-header">
+      <h4 class="modal-title">Add Budget</h4>
+      <button type="button" class="close" aria-label="Close" (click)="modal.dismiss()">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+    <div class="modal-body">
+      <form (ngSubmit)="addNewBudget(modal)">
+        <div class="form-group">
+          <label for="budgetName">Budget Name</label>
+          <input type="text" id="budgetName" class="form-control" [(ngModel)]="newBudget.budgetName" name="budgetName" required />
+        </div>
+        <div class="form-group">
+          <label for="category">Category</label>
+          <select id="category" class="form-control" [(ngModel)]="newBudget.budgetType" name="budgetType" required>
+            <option *ngFor="let category of categories" [value]="category.categoryId">{{ category.categoryName }}</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label for="amount">Amount</label>
+          <input type="number" id="amount" class="form-control" [(ngModel)]="newBudget.amount" name="amount" required />
+        </div>
+        <div class="form-group">
+          <label for="startDate">Start Date</label>
+          <input type="date" id="startDate" class="form-control" [(ngModel)]="newBudget.startDate" name="startDate" required />
+        </div>
+        <div class="form-group">
+          <label for="endDate">End Date</label>
+          <input type="date" id="endDate" class="form-control" [(ngModel)]="newBudget.endDate" name="endDate" required />
+        </div>
+        <button type="submit" class="btn btn-primary">Save Budget</button>
+      </form>
+    </div>
+  </ng-template>
+
+  <!-- update modal -->
+  <ng-template #updateModal let-modal>
+    <div class="modal-header">
+      <h4 class="modal-title">Update Budget</h4>
+      <button type="button" class="close" aria-label="Close" (click)="modal.dismiss()">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+    <div class="modal-body">
+      <form (ngSubmit)="editBudget(selectedBudget)">
+        <div class="form-group">
+          <label for="budgetName">Budget Name</label>
+          <input type="text" id="budgetName" class="form-control" [(ngModel)]="selectedBudget.budgetName" name="budgetName" required />
+        </div>
+        <!-- <div class="form-group">
+          <label for="category">Category</label>
+          <select id="category" class="form-control" [(ngModel)]="selectedBudget.budgetType" name="budgetType" required>
+            <option *ngFor="let category of categories" [value]="selectedBudget.categoryId">{{ selectedBudget.categoryName }}</option>
+          </select>
+        </div> -->
+        <div class="form-group">
+          <label for="amount">Amount</label>
+          <input type="number" id="amount" class="form-control" [(ngModel)]="selectedBudget.amount" name="amount" required />
+        </div>
+        <div class="form-group">
+          <label for="startDate">Start Date</label>
+          <input type="date" id="startDate" class="form-control" [(ngModel)]="selectedBudget.startDate" name="startDate" required />
+        </div>
+        <div class="form-group">
+          <label for="endDate">End Date</label>
+          <input type="date" id="endDate" class="form-control" [(ngModel)]="selectedBudget.endDate" name="endDate" required />
+        </div>
+        <button type="submit" class="btn btn-primary">Update</button>
+      </form>
+    </div>
+  </ng-template>
+  
+  
+  
+
+  <!-- Modal for Transaction -->
+  <ng-template #transactionModal let-modal>
+    <div class="modal-header">
+      <h4 class="modal-title">Update Budget</h4>
+      <button type="button" class="close" aria-label="Close" (click)="modal.dismiss()">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+    <!-- <div class="modal-body">
+      <form (ngSubmit)="updateCategoryTransaction(modal)">
+        <div class="form-group">
+          <label for="transactionAmount">Enter New Current Amount</label>
+          <input 
+            type="number" 
+            id="transactionAmount" 
+            class="form-control" 
+            [(ngModel)]="selectedCategory.current" 
+            name="transactionAmount" 
+            required 
+          />
+        </div>
+        <button type="submit" class="btn btn-primary">Update</button>
+      </form>
+    </div> -->
+  </ng-template>
+</div>

@@ -7,9 +7,16 @@
       <button class="btn btn-primary" (click)="openBudgetModal(budgetModal)">Add Budgets</button>
       <!-- <button class="btn btn-success" (click)="goToTransactionPage()">Transactions</button> -->
     </div>
+    <div *ngif="emptyBudget" class="summary-section mt-4">
+      <h4>You have no current Budget.</h4>
+    </div>
     <div class="row">
       <div class="col-md-4" *ngFor="let budget of budgets">
-        <div class="budget category maxed-out" >
+        <div class="budget category maxed-out" class="category" 
+        [ngClass]="{
+          'over-budget': budget.currentAmount > budget.amount,
+          'maxed-out': budget.amount === budget.currentAmount
+        }" >
           <div class="budget-info">
             <div class="d-flex justify-content-between align-items-center">
               <h5>{{ budget.budgetName }}</h5>
@@ -31,7 +38,9 @@
               </div>
             </div>
             <p>Type: {{ budget.budgetType }}</p>
-            <p>Amount: {{ budget.amount | currency }}</p>
+            <p>Budget: {{ budget.amount | currency }}</p>
+            <p>Current Amount: {{budget.currentAmount | currency}}</p>
+            <p>Remaining Budget: {{budget.amount - budget.currentAmount | currency}}</p>
             <p>Start Date: {{ budget.startDate | date }}</p>
             <p>End Date: {{ budget.endDate | date }}</p>
           </div>

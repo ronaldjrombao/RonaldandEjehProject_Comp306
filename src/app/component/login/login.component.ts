@@ -22,12 +22,11 @@ export class LoginComponent {
   onSubmit(): void {
     this.authService.login(this.username, this.password).subscribe((success) => {
       if (success) {
-        const userId = this.authService.getCurrentUserId();
-        console.log('Logged in user ID:', userId);
-        this.router.navigate(['/home']); // Redirect to home on successful login
+        this.router.navigate(['/home']); 
       } else {
-        this.loginFailed = true; // Show error if login fails
+        this.loginFailed = true; 
       }
     });
   }
+  
 }

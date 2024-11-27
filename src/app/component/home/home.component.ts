@@ -32,6 +32,7 @@ export class HomeComponent {
     budgetType: 0,
     amount: 0,
     startDate: '',
+    currentAmount: 0,
     endDate: ''
   };
 
@@ -41,11 +42,13 @@ export class HomeComponent {
     budgetType: string; 
     amount: number; 
     startDate: string; 
-    endDate: string; 
+    endDate: string;
+    currentAmount: number 
   }[] = [];
 
   categories: any[] = []
   selectedBudget: any = null
+  emptyBudget: boolean = true
 
   constructor(public authService: AuthService, 
     private router: Router, 
@@ -54,20 +57,13 @@ export class HomeComponent {
     ) { }
 
   ngOnInit() {
-    // Fetch budget data based on the userId
     this.fetchCategories();
     this.userId = this.authService.getCurrentUserId();
-    //this.categories = this.budgetService.getBudgets()
     this.fetchBudgets();
-    // this.budgetService.getUserBudget(this.userId || 0).subscribe(userBudget => {
-    //   if (userBudget) {
-    //     this.categories = userBudget.categories;
-    //     this.calculateTotals();
-    //   }
-    // }); 
+
+
   }
 
-  // Add a new budget category
   addNewBudget(modal: any) {
     this.budgetService.addBudget(this.newBudget).subscribe(
       response => {
@@ -84,6 +80,7 @@ export class HomeComponent {
       budgetName: '',
       budgetType: 0,
       amount: 0,
+      currentAmount: 0,
       startDate: '',
       endDate: ''
     };
@@ -103,17 +100,19 @@ export class HomeComponent {
   }
 
   calculateTotals() {
-    this.totalAllocated = this.categories.reduce((acc, category) => acc + category.allocated, 0);
-    this.totalSpent = this.categories.reduce((acc, category) => acc + category.current, 0);
-    this.totalRemaining = this.categories.reduce((acc, category) => acc + category.remaining, 0);
+    this.totalAllocated = this.budgets.reduce((acc, budget) => acc + budget.amount, 0);
+    this.totalSpent = this.categories.reduce((acc, budget) => acc + budget.currentAmount, 0);
+    this.totalRemaining = this.categories.reduce((acc, budget) => acc + budget.remaining, 0);
   }
-
 
 
   fetchBudgets() {
     this.budgetService.getBudgets().subscribe((data: any) => {
           this.budgets = data.results;
         })
+        if (this.budgets.length >  0){
+          this.emptyBudget = false
+        }
   }
   
   deleteBudget(budgetId: number) {

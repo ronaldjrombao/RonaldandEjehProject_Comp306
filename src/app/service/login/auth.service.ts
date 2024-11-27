@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { BehaviorSubject, Observable, of } from 'rxjs';
+import { BehaviorSubject, catchError, map, Observable, of, tap } from 'rxjs';
 import { HttpClient } from "@angular/common/http";
 
 interface User {
@@ -13,15 +13,10 @@ interface User {
 })
 export class AuthService {
   private apiServerUrl = 'https://localhost:7296';
-  private mockUsers: User[] = [
-    { userId: 1, username: 'Johnson', password: '1234' },
-    { userId: 2, username: 'user2', password: '1234' },
-    { userId: 3, username: 'user3', password: '1234' },
-  ];
 
   private authenticatedSubject: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(localStorage.getItem('token') !== null);
   private currentUserId: number | null = null;
-  private currentUsername: BehaviorSubject<string | null> = new BehaviorSubject<string | null>(null);
+  private currentUsername: BehaviorSubject<string | null> = new BehaviorSubject<string | null>(localStorage.getItem('username'));
 
   constructor(private http: HttpClient) { }
 
@@ -37,24 +32,29 @@ export class AuthService {
       "twoFactorCode": "",
       "twoFactorRecoveryCode": ""
     };
-    const response = this.http.post(`${this.apiServerUrl}/login`, loginUser);
-    response.subscribe((data: any) => {
-      if (data.accessToken) {
-        localStorage.setItem('token', data.accessToken);
-        localStorage.setItem('tokenType', data.tokenType);
-        localStorage.setItem('expiresIn', data.expiresIn);
-        localStorage.setItem('refreshToken', data.refreshToken);
-        this.currentUsername.next(username);
-        this.authenticatedSubject.next(true);
-      }
-      
-    })
-    if (localStorage.getItem("token")){
-      return  new Observable(observer => observer.next(true));
-    }
-    return new Observable(observer => observer.next(false));
+  
+    return this.http.post<any>(`${this.apiServerUrl}/login`, loginUser).pipe(
+      // Use tap to handle side effects like setting localStorage
+      tap(data => {
+        if (data.accessToken) {
+          localStorage.setItem('token', data.accessToken);
+          localStorage.setItem('tokenType', data.tokenType);
+          localStorage.setItem('expiresIn', data.expiresIn);
+          localStorage.setItem('refreshToken', data.refreshToken);
+          localStorage.setItem('username', username);
+          this.currentUsername.next(username);
+          this.authenticatedSubject.next(true);
+        }
+      }),
+      // Map response to true if successful
+      map(data => !!data.accessToken),
+      // Catch any errors and return false
+      catchError(() => {
+        return of(false);
+      })
+    );
   }
-
+  
   logout(): void {
     this.authenticatedSubject.next(false);
     localStorage.removeItem('token');

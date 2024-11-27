@@ -33,13 +33,13 @@
             <a class="nav-link active" aria-current="page" routerLink="/home">Home</a>
           </li> -->
           <li class="nav-item">
-            <a class="nav-link"  *ngIf="(isLoggedIn$ | async)" routerLink="/budget">Hi {{ username$ | async }}</a>
+            <a class="nav-link"  *ngIf="(isLoggedIn$ | async)">Hi {{ username$ | async }}</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="/home">Budget</a>
+            <a class="nav-link" routerLink="/home">Budget</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="/transactions">Transactions</a>
+            <a class="nav-link" routerLink="/transactions">Transactions</a>
           </li>
         </ul>
   
@@ -49,7 +49,7 @@
             <a
             *ngIf="!(isLoggedIn$ | async)"
               class="nav-link"
-              href="/login"
+              routerLink="/login"
               >Login</a
             >
           </li>
@@ -57,7 +57,7 @@
             <a
             *ngIf="!(isLoggedIn$ | async)"
               class="nav-link"
-              href="/register"
+              routerLink="/register"
               >Register</a
             >
           </li>
@@ -65,7 +65,7 @@
             <a
             *ngIf="(isLoggedIn$ | async)"
               class="nav-link"
-              href="#"
+              routerLink="#"
               (click)="onLogout()"
               >Logout</a
             >

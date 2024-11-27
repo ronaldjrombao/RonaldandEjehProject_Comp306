@@ -1,11 +1,12 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { environment } from '../../../environments/environment';
 
 @Injectable({
   providedIn: 'root'
 })
 export class TransactionService {
-  private apiServerUrl = 'https://localhost:7296';
+  private apiServerUrl = environment.apiUrl;
 
   constructor(private http: HttpClient) { }
 

@@ -3,14 +3,14 @@ import { BehaviorSubject, Observable, of } from 'rxjs';
 import { BudgetCategory, UserBudget } from '../../app.interface';
 import { HttpClient, HttpHeaders } from "@angular/common/http";
 import { response } from 'express';
-
+import { environment } from '../../../environments/environment';
 
 
 @Injectable({
   providedIn: 'root'
 })
 export class BudgetService {
-  private apiServerUrl = 'https://localhost:7296';
+  private apiServerUrl = environment.apiUrl;
 
   private budgetsSubject = new BehaviorSubject([]);
   constructor(private http: HttpClient) {

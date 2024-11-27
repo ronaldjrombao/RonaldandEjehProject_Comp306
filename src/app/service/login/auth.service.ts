@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable, of } from 'rxjs';
 import { HttpClient } from "@angular/common/http";
+import { environment } from '../../../environments/environment';
 
 interface User {
   userId: number;
@@ -12,7 +13,8 @@ interface User {
   providedIn: 'root'
 })
 export class AuthService {
-  private apiServerUrl = 'https://localhost:7296';
+  private apiServerUrl = environment.apiUrl;
+  
   private mockUsers: User[] = [
     { userId: 1, username: 'Johnson', password: '1234' },
     { userId: 2, username: 'user2', password: '1234' },

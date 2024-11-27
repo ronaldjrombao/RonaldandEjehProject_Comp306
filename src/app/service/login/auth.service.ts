@@ -13,17 +13,8 @@ interface User {
   providedIn: 'root'
 })
 export class AuthService {
-<<<<<<< HEAD
+
   private apiServerUrl = 'https://localhost:7296';
-=======
-  private apiServerUrl = environment.apiUrl;
-  
-  private mockUsers: User[] = [
-    { userId: 1, username: 'Johnson', password: '1234' },
-    { userId: 2, username: 'user2', password: '1234' },
-    { userId: 3, username: 'user3', password: '1234' },
-  ];
->>>>>>> f52e4111dc42e298ddaafb19725666cfb64b551d
 
   private authenticatedSubject: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(localStorage.getItem('token') !== null);
   private currentUserId: number | null = null;

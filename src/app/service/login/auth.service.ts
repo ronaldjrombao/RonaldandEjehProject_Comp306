@@ -14,7 +14,7 @@ interface User {
 })
 export class AuthService {
 
-  private apiServerUrl = 'https://localhost:7296';
+  private apiServerUrl = environment.apiUrl;
 
   private authenticatedSubject: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(localStorage.getItem('token') !== null);
   private currentUserId: number | null = null;

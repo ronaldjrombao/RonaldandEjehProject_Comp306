@@ -7,12 +7,11 @@ import { AuthService } from '../../service/login/auth.service';
 import { response } from 'express';
 
 @Component({
-  selector: 'app-register',
-  standalone: true,
-  providers: [HttpClient, AuthService],
-  imports: [ FormsModule, CommonModule], // Add FormsModule here
-  templateUrl: './register.component.html',
-  styleUrls: ['./register.component.css']
+    selector: 'app-register',
+    providers: [HttpClient, AuthService],
+    imports: [FormsModule, CommonModule], // Add FormsModule here
+    templateUrl: './register.component.html',
+    styleUrls: ['./register.component.css']
 })
 export class RegisterComponent {
   user = {

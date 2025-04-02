@@ -8,11 +8,10 @@ import { TransactionService } from '../../service/transaction/transaction.servic
 import { BudgetService } from '../../service/budget/budget.service';
 
 @Component({
-  selector: 'app-transaction',
-  standalone: true,
-  imports: [CommonModule, NgbModule, FormsModule],
-  templateUrl: './transaction.component.html',
-  styleUrl: './transaction.component.css'
+    selector: 'app-transaction',
+    imports: [CommonModule, NgbModule, FormsModule],
+    templateUrl: './transaction.component.html',
+    styleUrl: './transaction.component.css'
 })
 export class TransactionComponent {
 

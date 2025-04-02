@@ -8,11 +8,10 @@ import { NgbModal, NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { FormsModule } from '@angular/forms';  // Import FormsModule
 
 @Component({
-  selector: 'app-home',
-  standalone: true,
-  imports: [CommonModule, NgbModule, FormsModule ], // Add FormsModule here
-  templateUrl: './home.component.html',
-  styleUrl: './home.component.css'
+    selector: 'app-home',
+    imports: [CommonModule, NgbModule, FormsModule], // Add FormsModule here
+    templateUrl: './home.component.html',
+    styleUrl: './home.component.css'
 })
 export class HomeComponent {
   

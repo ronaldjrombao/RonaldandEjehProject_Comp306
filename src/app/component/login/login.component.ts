@@ -5,11 +5,10 @@ import { AuthService } from '../../service/login/auth.service';
 import { Router } from '@angular/router';
 
 @Component({
-  selector: 'app-login',
-  standalone: true,
-  imports: [CommonModule, FormsModule],
-  templateUrl: './login.component.html',
-  styleUrls: ['./login.component.css'] // Fixed the key from styleUrl to styleUrls
+    selector: 'app-login',
+    imports: [CommonModule, FormsModule],
+    templateUrl: './login.component.html',
+    styleUrls: ['./login.component.css'] // Fixed the key from styleUrl to styleUrls
 })
 export class LoginComponent {
   username = '';

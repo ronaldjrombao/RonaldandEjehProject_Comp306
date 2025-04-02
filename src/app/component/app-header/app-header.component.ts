@@ -6,11 +6,10 @@ import { Observable } from 'rxjs';
 import { RouterModule } from '@angular/router';
 
 @Component({
-  selector: 'app-header',
-  standalone: true,
-  imports: [CommonModule, RouterModule],
-  templateUrl: './app-header.component.html',
-  styleUrl: './app-header.component.css'
+    selector: 'app-header',
+    imports: [CommonModule, RouterModule],
+    templateUrl: './app-header.component.html',
+    styleUrl: './app-header.component.css'
 })
 export class AppHeaderComponent {
   isLoggedIn = false;

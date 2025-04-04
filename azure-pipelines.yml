@@ -30,27 +30,6 @@ stages:
         - script: npm run test -- --watch=false --no-progress --browsers=ChromeHeadless --code-coverage
           displayName: 'Run Angular Unit Tests'
 
-        - task: SonarQubePrepare@7
-          inputs:
-            SonarQube: 'SonarqubeLocal'
-            scannerMode: 'CLI'
-            configMode: 'manual'
-            cliProjectKey: 'BudgetManagementUI'
-            cliProjectName: 'BudgetManagementUI'
-            extraProperties: |
-              sonar.sources=src
-              sonar.tests=src
-              sonar.javascript.lcov.reportPaths=$(Build.SourcesDirectory)/coverage/lcov.info
-              sonar.projectBaseDir=$(Build.SourcesDirectory)
-
-        - task: SonarQubeAnalyze@7
-          displayName: 'Run SonarQube Analysis'
-
-        - task: SonarQubePublish@7
-          inputs:
-            pollingTimeoutSec: '300'
-          displayName: 'Publish SonarQube Report'
-
 - stage: DockerBuildAndPush
   displayName: Build & Push Angular UI Docker Image
   condition: eq(variables['Build.SourceBranch'], 'refs/heads/main')
@@ -79,5 +58,5 @@ stages:
             command: push
             repository: $(dockerHubRepo)
             tags: |
-              latest
+              ui_latest
               ui_$(shortSha)

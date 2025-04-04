@@ -7,7 +7,7 @@ pool:
   name: "Comp367_SH_Agent"
 
 variables:
-  angularAppPath: 'frontend'
+  angularAppPath: './'
   dockerHubRepo: 'ronaldjrombao/comp367group'
   dockerfilePath: './Dockerfile'
   shortSha: $[substring(variables['Build.SourceVersion'], 0, 8)]
@@ -33,15 +33,15 @@ stages:
         - task: SonarQubePrepare@7
           inputs:
             SonarQube: 'SonarqubeLocal'
-            scannerMode: 'dotnet'
+            scannerMode: 'CLI'
+            configMode: 'manual'
             projectKey: 'BudgetManagementUI'
             projectName: 'BudgetManagementUI'
             extraProperties: |
               sonar.sources=src
               sonar.tests=src
-              sonar.javascript.lcov.reportPaths=$(Build.SourcesDirectory)/$(angularAppPath)/coverage/lcov.info
-              sonar.projectBaseDir=$(Build.SourcesDirectory)/$(angularAppPath)
-              sonar.branch.name=
+              sonar.javascript.lcov.reportPaths=$(Build.SourcesDirectory)/coverage/lcov.info
+              sonar.projectBaseDir=$(Build.SourcesDirectory
 
         - task: SonarQubeAnalyze@7
           displayName: 'Run SonarQube Analysis'

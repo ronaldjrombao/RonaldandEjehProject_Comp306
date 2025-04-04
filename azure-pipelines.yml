@@ -27,7 +27,7 @@ stages:
         - script: npm ci
           displayName: 'Install Dependencies'
 
-        - script: npm run test -- --watch=false --no-progress --browsers=ChromeHeadlessCI --code-coverage
+        - script: npm run test -- --watch=false --no-progress --browsers=ChromeHeadless --code-coverage
           displayName: 'Run Angular Unit Tests'
 
         - task: SonarQubePrepare@7

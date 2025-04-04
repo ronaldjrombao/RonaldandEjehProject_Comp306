@@ -35,8 +35,8 @@ stages:
             SonarQube: 'SonarqubeLocal'
             scannerMode: 'CLI'
             configMode: 'manual'
-            projectKey: 'BudgetManagementUI'
-            projectName: 'BudgetManagementUI'
+            cliProjectKey: 'BudgetManagementUI'
+            cliProjectName: 'BudgetManagementUI'
             extraProperties: |
               sonar.sources=src
               sonar.tests=src

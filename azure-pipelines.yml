@@ -1,0 +1,83 @@
+trigger:
+  branches:
+    include:
+      - main
+
+pool:
+  name: "Comp367_SH_Agent"
+
+variables:
+  angularAppPath: 'frontend'
+  dockerHubRepo: 'ronaldjrombao/comp367group'
+  dockerfilePath: './Dockerfile'
+  shortSha: $[substring(variables['Build.SourceVersion'], 0, 8)]
+
+stages:
+- stage: AngularTestAndSonarQube
+  displayName: Run Unit Tests and SonarQube
+  jobs:
+    - job: TestAndAnalyze
+      displayName: Angular Test & Analysis
+      steps:
+        - task: NodeTool@0
+          inputs:
+            versionSpec: '22.11'
+          displayName: 'Use Node.js'
+
+        - script: npm ci
+          displayName: 'Install Dependencies'
+
+        - script: npm run test -- --watch=false --no-progress --browsers=ChromeHeadlessCI --code-coverage
+          displayName: 'Run Angular Unit Tests'
+
+        - task: SonarQubePrepare@7
+          inputs:
+            SonarQube: 'SonarqubeLocal'
+            scannerMode: 'dotnet'
+            projectKey: 'BudgetManagementUI'
+            projectName: 'BudgetManagementUI'
+            extraProperties: |
+              sonar.sources=src
+              sonar.tests=src
+              sonar.javascript.lcov.reportPaths=$(Build.SourcesDirectory)/$(angularAppPath)/coverage/lcov.info
+              sonar.projectBaseDir=$(Build.SourcesDirectory)/$(angularAppPath)
+              sonar.branch.name=
+
+        - task: SonarQubeAnalyze@7
+          displayName: 'Run SonarQube Analysis'
+
+        - task: SonarQubePublish@7
+          inputs:
+            pollingTimeoutSec: '300'
+          displayName: 'Publish SonarQube Report'
+
+- stage: DockerBuildAndPush
+  displayName: Build & Push Angular UI Docker Image
+  condition: eq(variables['Build.SourceBranch'], 'refs/heads/main')
+  jobs:
+    - job: DockerJob
+      steps:
+        - task: Docker@2
+          displayName: 'Login to Docker Hub'
+          inputs:
+            command: login
+            containerRegistry: 'DockerHub'
+
+        - task: Docker@2
+          displayName: 'Build Angular UI Docker Image'
+          inputs:
+            command: build
+            Dockerfile: $(dockerfilePath)
+            repository: $(dockerHubRepo)
+            tags: |
+              ui_latest
+              ui_$(shortSha)
+
+        - task: Docker@2
+          displayName: 'Push Angular UI Docker Image'
+          inputs:
+            command: push
+            repository: $(dockerHubRepo)
+            tags: |
+              latest
+              ui_$(shortSha)

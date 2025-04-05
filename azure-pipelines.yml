@@ -32,7 +32,7 @@ stages:
 
 - stage: DockerBuildAndPush
   displayName: Build & Push Angular UI Docker Image
-  #condition: eq(variables['Build.SourceBranch'], 'refs/heads/main')
+  condition: eq(variables['Build.SourceBranch'], 'refs/heads/main')
   jobs:
     - job: DockerJob
       steps:

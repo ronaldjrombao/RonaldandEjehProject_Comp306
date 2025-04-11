@@ -47,3 +47,8 @@ body {
   border-top-left-radius: 0;
   border-top-right-radius: 0;
 }
+.form-check .form-check-input{
+  float: none;
+  margin-right: 10px;
+  border-color: #a2a7ab;
+}

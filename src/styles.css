@@ -6,6 +6,7 @@ body {
     padding-bottom: 145px;
     min-height: 100vh;
 }
+
 .btn-primary{
     background-color: #ea4335;
     border-color: #ea4335;
@@ -13,4 +14,10 @@ body {
 .btn-primary:hover{
     background-color: #cf3b2f;
     border-color: #cf3b2f;
+}
+.modal-header {
+    justify-content: space-between;
+}
+.modal-body .form-group {
+    padding-bottom: 20px;
 }
